@@ -4,7 +4,7 @@ import java.util.List;
 
 import jakarta.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import lombok.AllArgsConstructor;
 import one.digitalinnovation.personapi.dtos.request.PersonDTO;
 import one.digitalinnovation.personapi.dtos.response.MessageResponseDTO;
 import one.digitalinnovation.personapi.exceptions.PersonNotFoundException;
@@ -24,10 +23,10 @@ import one.digitalinnovation.personapi.services.PersonService;
 
 @RestController
 @RequestMapping("/api/v1/people")
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class PersonController {
 
-	private PersonService personService;
+    private final PersonService personService;
 
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
