@@ -17,6 +17,8 @@ Acessar o endereço:
 - MapStruct
 - H2DB
 - JUnit
+- Openapi generator
+- Springdoc openapi
 
 ### Funcionaliades
 - CRUD de pessoas
