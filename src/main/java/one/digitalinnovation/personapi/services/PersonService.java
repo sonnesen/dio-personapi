@@ -1,29 +1,35 @@
 package one.digitalinnovation.personapi.services;
 
 import lombok.RequiredArgsConstructor;
-import one.digitalinnovation.personapi.api.dto.PersonRequest;
+import lombok.extern.slf4j.Slf4j;
+import one.digitalinnovation.personapi.api.dto.NewPersonRequest;
 import one.digitalinnovation.personapi.api.dto.PersonResponse;
+import one.digitalinnovation.personapi.api.dto.UpdatePersonRequest;
 import one.digitalinnovation.personapi.dtos.mapper.PersonMapper;
 import one.digitalinnovation.personapi.entities.Person;
 import one.digitalinnovation.personapi.exceptions.PersonNotFoundException;
 import one.digitalinnovation.personapi.repositories.PersonRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
+@Transactional(readOnly = true)
 public class PersonService {
 
 	private final PersonRepository personRepository;
 
-	public PersonResponse create(PersonRequest personRequest) {
+	@Transactional
+	public PersonResponse create(NewPersonRequest personRequest) {
 		var personToSave = PersonMapper.INSTANCE.toModel(personRequest);
 		var savedPerson = personRepository.save(personToSave);
 		return PersonMapper.INSTANCE.toDTO(savedPerson);
 	}
 
-	public PersonResponse findById(Long id) throws PersonNotFoundException {
+	public PersonResponse findById(Long id) {
 		var person = verifyIfExists(id);
 		return PersonMapper.INSTANCE.toDTO(person);
 	}
@@ -33,7 +39,8 @@ public class PersonService {
 		return allPeople.stream().map(PersonMapper.INSTANCE::toDTO).toList();
 	}
 
-	public PersonResponse updateById(Long id, PersonRequest personRequest) throws PersonNotFoundException {
+	@Transactional
+	public PersonResponse updateById(Long id, UpdatePersonRequest personRequest) {
 		verifyIfExists(id);
 
 		var personToUpdate = PersonMapper.INSTANCE.toModel(personRequest);
@@ -43,13 +50,17 @@ public class PersonService {
 		return PersonMapper.INSTANCE.toDTO(updatedPerson);
 	}
 
-	public void deleteById(Long id) throws PersonNotFoundException {
+	@Transactional
+	public void deleteById(Long id) {
 		verifyIfExists(id);
 		personRepository.deleteById(id);
 	}
 
-	private Person verifyIfExists(Long id) throws PersonNotFoundException {
-		return personRepository.findById(id).orElseThrow(() -> new PersonNotFoundException(id));
+	private Person verifyIfExists(Long id) {
+		return personRepository.findById(id).orElseThrow(() -> {
+			log.error("Person with ID {} not found.", id);
+			return new PersonNotFoundException(id);
+		});
 	}
 
 }

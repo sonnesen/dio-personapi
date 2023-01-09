@@ -35,7 +35,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PersonRequest'
+              $ref: '#/components/schemas/NewPersonRequest'
         required: true
       responses:
         200:
@@ -90,7 +90,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PersonRequest'
+              $ref: '#/components/schemas/UpdatePersonRequest'
         required: true
       responses:
         200:
@@ -129,7 +129,7 @@ paths:
 
 components:
   schemas:
-    PersonRequest:
+    NewPersonRequest:
       type: object
       required:
         - firstName
@@ -156,7 +156,35 @@ components:
         phones:
           type: array
           items:
-            $ref: '#/components/schemas/PhoneRequest'
+            $ref: '#/components/schemas/NewPersonPhoneRequest'
+    UpdatePersonRequest:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - cpf
+        - birthDate
+        - phones
+      properties:
+        firstName:
+          type: string
+          example: John
+          minLength: 2
+          maxLength: 100
+        lastName:
+          type: string
+          example: Doo
+        cpf:
+          type: string
+          example: 123.456.789-00
+        birthDate:
+          type: string
+          format: date
+          example: 08/12/2023
+        phones:
+          type: array
+          items:
+            $ref: '#/components/schemas/UpdatePersonPhoneRequest'
     PersonResponse:
       type: object
       properties:
@@ -181,8 +209,25 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PhoneResponse'
-    PhoneRequest:
+    NewPersonPhoneRequest:
       required:
+        - number
+        - type
+      type: object
+      properties:
+        number:
+          type: string
+          example: (99) 99999-9999
+        type:
+          type: string
+          example: MOBILE
+          enum:
+            - HOME
+            - MOBILE
+            - COMMERCIAL
+    UpdatePersonPhoneRequest:
+      required:
+        - id
         - number
         - type
       type: object

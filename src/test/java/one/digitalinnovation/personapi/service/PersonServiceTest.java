@@ -1,6 +1,6 @@
 package one.digitalinnovation.personapi.service;
 
-import one.digitalinnovation.personapi.api.dto.PersonRequest;
+import one.digitalinnovation.personapi.api.dto.NewPersonRequest;
 import one.digitalinnovation.personapi.api.dto.PersonResponse;
 import one.digitalinnovation.personapi.dtos.mapper.PersonMapper;
 import one.digitalinnovation.personapi.entities.Person;
@@ -29,7 +29,7 @@ class PersonServiceTest {
 
     @Test
     void testGivenPersonDTOThenReturnSavedMessage() {
-        PersonRequest personRequest = createFakeRequest();
+        NewPersonRequest personRequest = createFakeRequest();
         Person expectedSavedPerson = createFakeEntity();
 
         when(personRepository.save(any(Person.class))).thenReturn(expectedSavedPerson);

@@ -3,8 +3,9 @@ package one.digitalinnovation.personapi.controllers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import one.digitalinnovation.personapi.api.PeopleApi;
-import one.digitalinnovation.personapi.api.dto.PersonRequest;
+import one.digitalinnovation.personapi.api.dto.NewPersonRequest;
 import one.digitalinnovation.personapi.api.dto.PersonResponse;
+import one.digitalinnovation.personapi.api.dto.UpdatePersonRequest;
 import one.digitalinnovation.personapi.services.PersonService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class PersonController implements PeopleApi {
     private final PersonService personService;
 
 	@Override
-	public ResponseEntity<PersonResponse> create(@RequestBody @Valid PersonRequest personRequest) {
+	public ResponseEntity<PersonResponse> create(@RequestBody @Valid NewPersonRequest personRequest) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(personService.create(personRequest));
 	}
 
@@ -34,7 +35,8 @@ public class PersonController implements PeopleApi {
 	}
 
 	@Override
-	public ResponseEntity<PersonResponse> updateById(@PathVariable Long id, @RequestBody @Valid PersonRequest personRequest) {
+	public ResponseEntity<PersonResponse> updateById(@PathVariable Long id,
+													 @RequestBody @Valid UpdatePersonRequest personRequest) {
 		return ResponseEntity.ok(personService.updateById(id, personRequest));
 	}
 
