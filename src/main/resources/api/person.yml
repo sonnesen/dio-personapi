@@ -1,0 +1,220 @@
+openapi: 3.0.3
+info:
+  title: Person API
+  description: Person API
+  version: 0.0.2
+servers:
+  - url: 'http://localhost:8080/api/v1/'
+tags:
+  - name: people
+paths:
+  /people:
+    get:
+      tags:
+        - people
+      summary: Finds all people
+      description: Finds all registered people
+      operationId: findAll
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PersonResponse'
+    post:
+      tags:
+        - people
+      summary: Add a new person
+      description: Add a new person
+      operationId: create
+      requestBody:
+        description: Create a new person
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersonRequest'
+        required: true
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonResponse'
+        405:
+          description: Invalid input
+  /people/{id}:
+    get:
+      tags:
+        - people
+      summary: Find person by Id
+      description: Returns a single person
+      operationId: findById
+      parameters:
+        - name: id
+          in: path
+          description: Id of person to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonResponse'
+        400:
+          description: Invalid Id supplied
+        404:
+          description: Person not found
+    put:
+      tags:
+        - people
+      summary: Update an existing person
+      description: Update an existing person by Id
+      operationId: updateById
+      parameters:
+        - name: id
+          in: path
+          description: Person Id to update
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersonRequest'
+        required: true
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonResponse'
+        400:
+          description: Invalid Id supplied
+        404:
+          description: Person not found
+        405:
+          description: Validation exception
+    delete:
+      tags:
+        - people
+      summary: Deletes a person
+      description: Delete a person
+      operationId: deleteById
+      parameters:
+        - name: id
+          in: path
+          description: Person Id to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        204:
+          description: Successful operation
+        400:
+          description: Invalid Id supplied
+        404:
+          description: Person not found
+
+components:
+  schemas:
+    PersonRequest:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - cpf
+        - birthDate
+        - phones
+      properties:
+        firstName:
+          type: string
+          example: John
+          minLength: 2
+          maxLength: 100
+        lastName:
+          type: string
+          example: Doo
+        cpf:
+          type: string
+          example: 123.456.789-00
+        birthDate:
+          type: string
+          format: date
+          example: 08/12/2023
+        phones:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneRequest'
+    PersonResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Doo
+        cpf:
+          type: string
+          example: 123.456.789-00
+        birthDate:
+          type: string
+          format: date
+          example: 08/12/2023
+        phones:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneResponse'
+    PhoneRequest:
+      required:
+        - number
+        - type
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        number:
+          type: string
+          example: (99) 99999-9999
+        type:
+          type: string
+          example: MOBILE
+          enum:
+            - HOME
+            - MOBILE
+            - COMMERCIAL
+    PhoneResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        number:
+          type: string
+          example: (99) 99999-9999
+        type:
+          type: string
+          example: MOBILE
+          enum:
+            - HOME
+            - MOBILE
+            - COMMERCIAL

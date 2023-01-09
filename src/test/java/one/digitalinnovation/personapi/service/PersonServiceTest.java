@@ -1,50 +1,44 @@
 package one.digitalinnovation.personapi.service;
 
-import static one.digitalinnovation.personapi.utils.PersonUtils.createFakeDTO;
-import static one.digitalinnovation.personapi.utils.PersonUtils.createFakeEntity;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-
+import one.digitalinnovation.personapi.api.dto.PersonRequest;
+import one.digitalinnovation.personapi.api.dto.PersonResponse;
+import one.digitalinnovation.personapi.dtos.mapper.PersonMapper;
+import one.digitalinnovation.personapi.entities.Person;
+import one.digitalinnovation.personapi.repositories.PersonRepository;
+import one.digitalinnovation.personapi.services.PersonService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import one.digitalinnovation.personapi.dtos.request.PersonDTO;
-import one.digitalinnovation.personapi.dtos.response.MessageResponseDTO;
-import one.digitalinnovation.personapi.entities.Person;
-import one.digitalinnovation.personapi.repositories.PersonRepository;
-import one.digitalinnovation.personapi.services.PersonService;
+import static one.digitalinnovation.personapi.utils.PersonUtils.createFakeEntity;
+import static one.digitalinnovation.personapi.utils.PersonUtils.createFakeRequest;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class PersonServiceTest {
 
-	@Mock
-	private PersonRepository personRepository;
+    @Mock
+    private PersonRepository personRepository;
 
-	@InjectMocks
-	private PersonService personService;
-	
-	@Test
-	void testGivenPersonDTOThenReturnSavedMessage() {
-		PersonDTO personDTO = createFakeDTO();
-		Person expectedSavedPerson = createFakeEntity();
-		
-		when(personRepository.save(any(Person.class))).thenReturn(expectedSavedPerson);
-		
-		MessageResponseDTO expectedSuccessMessage = createExpectedMessageResponse(expectedSavedPerson.getId());
-		MessageResponseDTO successMessage = personService.create(personDTO);
-		
-		assertEquals(expectedSuccessMessage, successMessage);
-	}
-	
-	private MessageResponseDTO createExpectedMessageResponse(Long id) {
-		return MessageResponseDTO
-				.builder()
-				.message("Created person with ID " + id)
-				.build();
-	}
+    @InjectMocks
+    private PersonService personService;
+
+    @Test
+    void testGivenPersonDTOThenReturnSavedMessage() {
+        PersonRequest personRequest = createFakeRequest();
+        Person expectedSavedPerson = createFakeEntity();
+
+        when(personRepository.save(any(Person.class))).thenReturn(expectedSavedPerson);
+
+        PersonResponse personResponse = personService.create(personRequest);
+        PersonResponse expectedResponse = PersonMapper.INSTANCE.toDTO(expectedSavedPerson);
+
+        assertEquals(expectedResponse, personResponse);
+    }
+
 
 }

@@ -3,7 +3,7 @@ package one.digitalinnovation.personapi.utils;
 import java.time.LocalDate;
 import java.util.Collections;
 
-import one.digitalinnovation.personapi.dtos.request.PersonDTO;
+import one.digitalinnovation.personapi.api.dto.PersonRequest;
 import one.digitalinnovation.personapi.entities.Person;
 
 public class PersonUtils {
@@ -14,14 +14,13 @@ public class PersonUtils {
 	private static final long PERSON_ID = 1L;
 	private static final LocalDate BIRTH_DATE = LocalDate.of(2010, 10, 1);
 
-	public static PersonDTO createFakeDTO() {
-		return PersonDTO.builder()
+	public static PersonRequest createFakeRequest() {
+		return new PersonRequest()
 				.firstName(FIRST_NAME)
 				.lastName(LAST_NAME)
 				.cpf(CPF_NUMBER)
-				.birthDate("04-04-2010")
-				.phones(Collections.singletonList(PhoneUtils.createFakeDTO()))
-				.build();
+				.birthDate(LocalDate.of(2010,4,4))
+				.phones(Collections.singletonList(PhoneUtils.createFakeRequest()));
 	}
 
 	public static Person createFakeEntity() {
