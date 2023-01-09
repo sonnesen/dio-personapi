@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +32,7 @@ public class PersonService {
 		return PersonMapper.INSTANCE.toDTO(savedPerson);
 	}
 
-	public PersonResponse findById(Long id) {
+	public PersonResponse findById(UUID id) {
 		var person = verifyIfIdExists(id);
 		return PersonMapper.INSTANCE.toDTO(person);
 	}
@@ -42,7 +43,7 @@ public class PersonService {
 	}
 
 	@Transactional
-	public PersonResponse updateById(Long id, UpdatePersonRequest personRequest) {
+	public PersonResponse updateById(UUID id, UpdatePersonRequest personRequest) {
 		verifyIfIdExists(id);
 
 		var personToUpdate = PersonMapper.INSTANCE.toModel(personRequest);
@@ -53,12 +54,12 @@ public class PersonService {
 	}
 
 	@Transactional
-	public void deleteById(Long id) {
+	public void deleteById(UUID id) {
 		verifyIfIdExists(id);
 		personRepository.deleteById(id);
 	}
 
-	private Person verifyIfIdExists(Long id) {
+	private Person verifyIfIdExists(UUID id) {
 		return personRepository.findById(id).orElseThrow(() -> {
 			log.error("Person with ID {} not found.", id);
 			return new PersonNotFoundException(id);

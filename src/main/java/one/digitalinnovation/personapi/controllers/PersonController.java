@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,7 +26,7 @@ public class PersonController implements PeopleApi {
 	}
 
 	@Override
-	public ResponseEntity<PersonResponse> findById(@PathVariable Long id) {
+	public ResponseEntity<PersonResponse> findById(@PathVariable UUID id) {
 		return ResponseEntity.ok(personService.findById(id));
 	}
 
@@ -35,13 +36,13 @@ public class PersonController implements PeopleApi {
 	}
 
 	@Override
-	public ResponseEntity<PersonResponse> updateById(@PathVariable Long id,
+	public ResponseEntity<PersonResponse> updateById(@PathVariable UUID id,
 													 @RequestBody @Valid UpdatePersonRequest personRequest) {
 		return ResponseEntity.ok(personService.updateById(id, personRequest));
 	}
 
 	@Override
-	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+	public ResponseEntity<Void> deleteById(@PathVariable UUID id) {
 		personService.deleteById(id);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}

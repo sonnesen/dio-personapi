@@ -4,10 +4,12 @@ import one.digitalinnovation.personapi.api.dto.NewPersonPhoneRequest;
 import one.digitalinnovation.personapi.entities.Phone;
 import one.digitalinnovation.personapi.enums.PhoneType;
 
+import java.util.UUID;
+
 public class PhoneUtils {
 
 	private static final String PHONE_NUMBER = "(11) 99999-9999";
-	private static final long PHONE_ID = 1L;
+	private static final UUID PHONE_ID = UUID.randomUUID();
 	
 	public static NewPersonPhoneRequest createFakeRequest() {
 		return new NewPersonPhoneRequest()

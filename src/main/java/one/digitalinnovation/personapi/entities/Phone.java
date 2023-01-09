@@ -14,6 +14,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import one.digitalinnovation.personapi.enums.PhoneType;
 
+import java.util.UUID;
+
 @Entity
 @Data
 @Builder
@@ -22,8 +24,8 @@ import one.digitalinnovation.personapi.enums.PhoneType;
 public class Phone {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@GeneratedValue(strategy = GenerationType.UUID)
+	private UUID id;
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, length = 15)
