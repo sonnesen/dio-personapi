@@ -7,6 +7,7 @@ import one.digitalinnovation.personapi.api.dto.PersonResponse;
 import one.digitalinnovation.personapi.api.dto.UpdatePersonRequest;
 import one.digitalinnovation.personapi.dtos.mapper.PersonMapper;
 import one.digitalinnovation.personapi.entities.Person;
+import one.digitalinnovation.personapi.exceptions.PersonAlreadyExistsException;
 import one.digitalinnovation.personapi.exceptions.PersonNotFoundException;
 import one.digitalinnovation.personapi.repositories.PersonRepository;
 import org.springframework.stereotype.Service;
@@ -24,13 +25,14 @@ public class PersonService {
 
 	@Transactional
 	public PersonResponse create(NewPersonRequest personRequest) {
+		verifyIfCpfExists(personRequest.getCpf());
 		var personToSave = PersonMapper.INSTANCE.toModel(personRequest);
 		var savedPerson = personRepository.save(personToSave);
 		return PersonMapper.INSTANCE.toDTO(savedPerson);
 	}
 
 	public PersonResponse findById(Long id) {
-		var person = verifyIfExists(id);
+		var person = verifyIfIdExists(id);
 		return PersonMapper.INSTANCE.toDTO(person);
 	}
 
@@ -41,7 +43,7 @@ public class PersonService {
 
 	@Transactional
 	public PersonResponse updateById(Long id, UpdatePersonRequest personRequest) {
-		verifyIfExists(id);
+		verifyIfIdExists(id);
 
 		var personToUpdate = PersonMapper.INSTANCE.toModel(personRequest);
 		personToUpdate.setId(id);
@@ -52,15 +54,21 @@ public class PersonService {
 
 	@Transactional
 	public void deleteById(Long id) {
-		verifyIfExists(id);
+		verifyIfIdExists(id);
 		personRepository.deleteById(id);
 	}
 
-	private Person verifyIfExists(Long id) {
+	private Person verifyIfIdExists(Long id) {
 		return personRepository.findById(id).orElseThrow(() -> {
 			log.error("Person with ID {} not found.", id);
 			return new PersonNotFoundException(id);
 		});
+	}
+
+	private void verifyIfCpfExists(String cpf) {
+		if (personRepository.existsByCpf(cpf)) {
+			throw new PersonAlreadyExistsException(cpf);
+		}
 	}
 
 }

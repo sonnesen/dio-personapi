@@ -1,9 +1,9 @@
 package one.digitalinnovation.personapi.repositories;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import one.digitalinnovation.personapi.entities.Person;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PersonRepository extends JpaRepository<Person, Long> {
 
+    boolean existsByCpf(String cpf);
 }

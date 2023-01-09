@@ -44,7 +44,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PersonResponse'
-        405:
+        409:
           description: Invalid input
   /people/{id}:
     get:
@@ -135,20 +135,21 @@ components:
         - firstName
         - lastName
         - cpf
-        - birthDate
-        - phones
       properties:
         firstName:
           type: string
           example: John
           minLength: 2
-          maxLength: 100
+          maxLength: 50
         lastName:
           type: string
           example: Doo
+          minLength: 2
+          maxLength: 50
         cpf:
           type: string
           example: 123.456.789-00
+          pattern: '[0-9]{3}\.?[0-9]{3}\.?[0-9]{3}\-?[0-9]{2}'
         birthDate:
           type: string
           format: date
@@ -163,20 +164,21 @@ components:
         - firstName
         - lastName
         - cpf
-        - birthDate
-        - phones
       properties:
         firstName:
           type: string
           example: John
           minLength: 2
-          maxLength: 100
+          maxLength: 50
         lastName:
           type: string
           example: Doo
+          minLength: 2
+          maxLength: 50
         cpf:
           type: string
           example: 123.456.789-00
+          pattern: '[0-9]{3}\.?[0-9]{3}\.?[0-9]{3}\-?[0-9]{2}'
         birthDate:
           type: string
           format: date
@@ -218,6 +220,7 @@ components:
         number:
           type: string
           example: (99) 99999-9999
+          maxLength: 20
         type:
           type: string
           example: MOBILE
@@ -239,6 +242,7 @@ components:
         number:
           type: string
           example: (99) 99999-9999
+          maxLength: 20
         type:
           type: string
           example: MOBILE
