@@ -127,7 +127,15 @@ paths:
         404:
           description: Person not found
 
+security:
+  - basicAuth: [ ]
+
 components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      in: header
   schemas:
     NewPersonRequest:
       type: object

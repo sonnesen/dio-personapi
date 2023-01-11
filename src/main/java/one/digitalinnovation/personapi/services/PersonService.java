@@ -22,54 +22,54 @@ import java.util.UUID;
 @Transactional(readOnly = true)
 public class PersonService {
 
-	private final PersonRepository personRepository;
+    private final PersonRepository personRepository;
 
-	@Transactional
-	public PersonResponse create(NewPersonRequest personRequest) {
-		verifyIfCpfExists(personRequest.getCpf());
-		var personToSave = PersonMapper.INSTANCE.toModel(personRequest);
-		var savedPerson = personRepository.save(personToSave);
-		return PersonMapper.INSTANCE.toDTO(savedPerson);
-	}
+    @Transactional
+    public PersonResponse create(NewPersonRequest personRequest) {
+        verifyIfCpfExists(personRequest.getCpf());
+        var personToSave = PersonMapper.INSTANCE.toModel(personRequest);
+        var savedPerson = personRepository.save(personToSave);
+        return PersonMapper.INSTANCE.toDTO(savedPerson);
+    }
 
-	public PersonResponse findById(UUID id) {
-		var person = verifyIfIdExists(id);
-		return PersonMapper.INSTANCE.toDTO(person);
-	}
+    public PersonResponse findById(UUID id) {
+        var person = verifyIfIdExists(id);
+        return PersonMapper.INSTANCE.toDTO(person);
+    }
 
-	public List<PersonResponse> findAll() {
-		var allPeople = personRepository.findAll();
-		return allPeople.stream().map(PersonMapper.INSTANCE::toDTO).toList();
-	}
+    public List<PersonResponse> findAll() {
+        var allPeople = personRepository.findAll();
+        return allPeople.stream().map(PersonMapper.INSTANCE::toDTO).toList();
+    }
 
-	@Transactional
-	public PersonResponse updateById(UUID id, UpdatePersonRequest personRequest) {
-		verifyIfIdExists(id);
+    @Transactional
+    public PersonResponse updateById(UUID id, UpdatePersonRequest personRequest) {
+        verifyIfIdExists(id);
 
-		var personToUpdate = PersonMapper.INSTANCE.toModel(personRequest);
-		personToUpdate.setId(id);
-		var updatedPerson = personRepository.save(personToUpdate);
+        var personToUpdate = PersonMapper.INSTANCE.toModel(personRequest);
+        personToUpdate.setId(id);
+        var updatedPerson = personRepository.save(personToUpdate);
 
-		return PersonMapper.INSTANCE.toDTO(updatedPerson);
-	}
+        return PersonMapper.INSTANCE.toDTO(updatedPerson);
+    }
 
-	@Transactional
-	public void deleteById(UUID id) {
-		verifyIfIdExists(id);
-		personRepository.deleteById(id);
-	}
+    @Transactional
+    public void deleteById(UUID id) {
+        verifyIfIdExists(id);
+        personRepository.deleteById(id);
+    }
 
-	private Person verifyIfIdExists(UUID id) {
-		return personRepository.findById(id).orElseThrow(() -> {
-			log.error("Person with ID {} not found.", id);
-			return new PersonNotFoundException(id);
-		});
-	}
+    private Person verifyIfIdExists(UUID id) {
+        return personRepository.findById(id).orElseThrow(() -> {
+            log.error("Person with ID {} not found.", id);
+            return new PersonNotFoundException(id);
+        });
+    }
 
-	private void verifyIfCpfExists(String cpf) {
-		if (personRepository.existsByCpf(cpf)) {
-			throw new PersonAlreadyExistsException(cpf);
-		}
-	}
+    private void verifyIfCpfExists(String cpf) {
+        if (personRepository.existsByCpf(cpf)) {
+            throw new PersonAlreadyExistsException(cpf);
+        }
+    }
 
 }

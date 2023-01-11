@@ -8,20 +8,20 @@ import java.util.UUID;
 
 public class PhoneUtils {
 
-	private static final String PHONE_NUMBER = "(11) 99999-9999";
-	private static final UUID PHONE_ID = UUID.randomUUID();
-	
-	public static NewPersonPhoneRequest createFakeRequest() {
-		return new NewPersonPhoneRequest()
-				.number(PHONE_NUMBER)
-				.type(NewPersonPhoneRequest.TypeEnum.MOBILE);
-	}
-	
-	public static Phone createFakeEntity() {
-		return Phone.builder()
-				.id(PHONE_ID)
-				.number(PHONE_NUMBER)
-				.type(PhoneType.MOBILE)
-				.build();
-	}
+    private static final String PHONE_NUMBER = "(11) 99999-9999";
+    private static final UUID PHONE_ID = UUID.randomUUID();
+
+    public static NewPersonPhoneRequest createFakeRequest() {
+        return new NewPersonPhoneRequest()
+                .number(PHONE_NUMBER)
+                .type(NewPersonPhoneRequest.TypeEnum.MOBILE);
+    }
+
+    public static Phone createFakeEntity() {
+        return Phone.builder()
+                .id(PHONE_ID)
+                .number(PHONE_NUMBER)
+                .type(PhoneType.MOBILE)
+                .build();
+    }
 }

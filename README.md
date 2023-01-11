@@ -11,6 +11,7 @@ Acessar o endereço:
 `http://localhost:8080/api/v1/people`
 
 ### Tecnologias utilizadas:
+
 - Spring Framework
 - Maven
 - Lombok
@@ -19,6 +20,8 @@ Acessar o endereço:
 - JUnit
 - Openapi generator
 - Springdoc openapi
+- Spring Security
 
 ### Funcionaliades
+
 - CRUD de pessoas
