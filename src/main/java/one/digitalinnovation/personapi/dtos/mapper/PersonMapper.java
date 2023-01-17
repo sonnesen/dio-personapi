@@ -3,7 +3,7 @@ package one.digitalinnovation.personapi.dtos.mapper;
 import one.digitalinnovation.personapi.api.dto.NewPersonRequest;
 import one.digitalinnovation.personapi.api.dto.PersonResponse;
 import one.digitalinnovation.personapi.api.dto.UpdatePersonRequest;
-import one.digitalinnovation.personapi.entities.Person;
+import one.digitalinnovation.personapi.models.Person;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

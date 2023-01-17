@@ -1,8 +1,8 @@
 package one.digitalinnovation.personapi.utils;
 
 import one.digitalinnovation.personapi.api.dto.NewPersonPhoneRequest;
-import one.digitalinnovation.personapi.entities.Phone;
 import one.digitalinnovation.personapi.enums.PhoneType;
+import one.digitalinnovation.personapi.models.Phone;
 
 import java.util.UUID;
 

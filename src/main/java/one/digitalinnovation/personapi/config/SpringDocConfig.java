@@ -1,6 +1,5 @@
 package one.digitalinnovation.personapi.config;
 
-import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -13,10 +12,10 @@ import java.util.Arrays;
 
 @Configuration
 @SecurityScheme(
-        name = "basicAuth",
+        name = "bearerAuth",
         type = SecuritySchemeType.HTTP,
-        scheme = "basic",
-        in = SecuritySchemeIn.HEADER
+        scheme = "bearer",
+        bearerFormat = "JWT"
 )
 public class SpringDocConfig {
 

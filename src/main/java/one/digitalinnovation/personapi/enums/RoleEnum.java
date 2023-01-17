@@ -1,5 +1,5 @@
 package one.digitalinnovation.personapi.enums;
 
-public enum RoleName {
+public enum RoleEnum {
     ROLE_ADMIN, ROLE_USER
 }

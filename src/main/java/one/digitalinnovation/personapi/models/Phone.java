@@ -1,4 +1,4 @@
-package one.digitalinnovation.personapi.entities;
+package one.digitalinnovation.personapi.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

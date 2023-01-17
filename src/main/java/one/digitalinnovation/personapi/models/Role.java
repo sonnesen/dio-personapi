@@ -1,14 +1,13 @@
-package one.digitalinnovation.personapi.entities;
+package one.digitalinnovation.personapi.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import one.digitalinnovation.personapi.enums.RoleName;
+import one.digitalinnovation.personapi.enums.RoleEnum;
 import org.springframework.security.core.GrantedAuthority;
 
-import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
@@ -17,17 +16,17 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Role implements GrantedAuthority, Serializable {
+public class Role implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, unique = true)
-    private RoleName roleName;
+    @Column(nullable = false, unique = true, length = 20)
+    private RoleEnum name;
 
     @Override
     public String getAuthority() {
-        return roleName.toString();
+        return getName().name();
     }
 }

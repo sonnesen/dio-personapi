@@ -11,8 +11,18 @@ spring:
     hibernate:
       ddl-auto: create-drop
     show-sql: true
-    defer-datasource-initialization: true
-  sql:
-    init:
-      platform: h2
-      continue-on-error: false
+  h2:
+    console:
+      enabled: true
+
+security:
+  jwt:
+    secret: dc102045ae09982e953c44c17e207c6efa49fc4b0156f3ad5b403ae2cb521bb081794c3001f9424ad399b3a695a5a11592b13355d3d5f81aca999b0d39bb06e8
+    expiration_ms: 1800000
+    refresh_token_ms: 86400000
+
+#logging:
+#  level:
+#    sql: debug
+#    root: debug
+#    web: debug

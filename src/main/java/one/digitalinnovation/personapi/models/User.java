@@ -1,13 +1,14 @@
-package one.digitalinnovation.personapi.entities;
+package one.digitalinnovation.personapi.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.Serializable;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -16,60 +17,56 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User implements UserDetails, Serializable {
-
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @Column(nullable = false, unique = true)
-    private String username;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
+    private String firstname;
+    @Column(nullable = false, length = 100)
+    private String lastname;
+    @Column(nullable = false, unique = true, length = 100)
+    private String email;
+    @JsonIgnore
+    @Column(nullable = false, length = 120)
     private String password;
-    private boolean accountNonExpired = true;
-    private boolean accountNonLocked = true;
-    private boolean credentialsNonExpired = true;
-    private boolean enabled = true;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinTable(name = "TB_USERS_ROLES",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     @Singular
-    private List<Role> roles;
+    private Set<Role> roles = new HashSet<>();
+    @Builder.Default
+    private boolean enabled = true;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
+        return roles.stream().toList();
     }
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return accountNonExpired;
+        return isEnabled();
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return accountNonLocked;
+        return isEnabled();
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return credentialsNonExpired;
+        return isEnabled();
     }
 
     @Override
     public boolean isEnabled() {
         return enabled;
     }
-
 }

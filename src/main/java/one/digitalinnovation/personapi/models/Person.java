@@ -1,4 +1,4 @@
-package one.digitalinnovation.personapi.entities;
+package one.digitalinnovation.personapi.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -25,10 +25,10 @@ public class Person {
     private UUID id;
 
     @Column(nullable = false, length = 50)
-    private String firstName;
+    private String firstname;
 
     @Column(nullable = false, length = 50)
-    private String lastName;
+    private String lastname;
 
     @Column(nullable = false, unique = true, length = 14)
     private String cpf;

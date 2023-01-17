@@ -3,7 +3,7 @@ package one.digitalinnovation.personapi.service;
 import one.digitalinnovation.personapi.api.dto.NewPersonRequest;
 import one.digitalinnovation.personapi.api.dto.PersonResponse;
 import one.digitalinnovation.personapi.dtos.mapper.PersonMapper;
-import one.digitalinnovation.personapi.entities.Person;
+import one.digitalinnovation.personapi.models.Person;
 import one.digitalinnovation.personapi.repositories.PersonRepository;
 import one.digitalinnovation.personapi.services.PersonService;
 import org.junit.jupiter.api.Test;

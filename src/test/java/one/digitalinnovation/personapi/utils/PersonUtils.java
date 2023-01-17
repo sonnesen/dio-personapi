@@ -1,7 +1,7 @@
 package one.digitalinnovation.personapi.utils;
 
 import one.digitalinnovation.personapi.api.dto.NewPersonRequest;
-import one.digitalinnovation.personapi.entities.Person;
+import one.digitalinnovation.personapi.models.Person;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -17,8 +17,8 @@ public class PersonUtils {
 
     public static NewPersonRequest createFakeRequest() {
         return new NewPersonRequest()
-                .firstName(FIRST_NAME)
-                .lastName(LAST_NAME)
+                .firstname(FIRST_NAME)
+                .lastname(LAST_NAME)
                 .cpf(CPF_NUMBER)
                 .birthDate(LocalDate.of(2010, 4, 4))
                 .phones(Collections.singletonList(PhoneUtils.createFakeRequest()));
@@ -27,8 +27,8 @@ public class PersonUtils {
     public static Person createFakeEntity() {
         return Person.builder()
                 .id(PERSON_ID)
-                .firstName(FIRST_NAME)
-                .lastName(LAST_NAME)
+                .firstname(FIRST_NAME)
+                .lastname(LAST_NAME)
                 .cpf(CPF_NUMBER)
                 .birthDate(BIRTH_DATE)
                 .phones(Collections.singletonList(PhoneUtils.createFakeEntity()))
